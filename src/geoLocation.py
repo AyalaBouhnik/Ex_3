@@ -1,11 +1,21 @@
 class geoLocation:
-    """"This interface represents a geo location <x,y,z>, aka Point3D"""
+
+    x = 0.0
+    y = 0.0
+    z = 0.0
+
+    def __init__(self,x=0.0,y=0.0,z=0.0):
+        self.x = x
+        self.y = y
+        self.z = z
+
     def x(self) -> int:
-       raise NotImplementedError
-    def y(self)-> int:
-       raise NotImplementedError
-    def z(self)-> int:
-       raise NotImplementedError
-     # def distance(g)-> geoLocation:
-       #raise NotImplementedError
+        return self.x
+
+    def y(self) -> int:
+        return self.y
+
+    def z(self) -> int:
+        return self.z
+
 
