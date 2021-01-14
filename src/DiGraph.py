@@ -109,7 +109,14 @@ class DiGraph(GraphInterface):
         del self.vertex_dict[node_id]
         del self.in_ni[node_id]
         del self.out_ni[node_id]
-        ## to delete node_id from all the other nodes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        for node in self.in_ni.values():
+            if node_id in node.keys():
+                del node[node_id]
+
+        for node in self.out_ni.values():
+            if node_id in node.keys():
+                del node[node_id]
 
         self.vertex_size = self.vertex_size - 1
         self.changes = self.changes + 1
