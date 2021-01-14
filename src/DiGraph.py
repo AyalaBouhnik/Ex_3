@@ -24,20 +24,11 @@ class Vertex:
         return self.position
 
 
-# from GraphInterface import GraphInterface
-# from DiGraph import Vertex
-
-
 class DiGraph(GraphInterface):
     vertex_dict = {}            # list of nodes. hashmap. { node.id : node }
     out_ni = {}                 # list of neighbors.  hashmap inside hashmap. { src.id : { dest.id : weight } }
     in_ni = {}                  # list of neighbors.  hashmap inside hashmap. { dest.id : { src.id : weight } }
     changes = 0
-    ###Gilad- please think of another way!!!
-    # x_min = None
-    # y_min = None
-    # x_max = None
-    # y_max = None
 
     def __init__(self, edge_size=0, vertex_size=0, changes=0, out_ni={}, in_ni={}, vertex_dict={}):
         self.vertex_dict = vertex_dict
@@ -63,14 +54,24 @@ class DiGraph(GraphInterface):
             if pos is not None:
                 f_x = pos.x
                 f_y = pos.y
-
-                if self.y_max is None | f_y > self.y_max:
+                if (self.y_max is None):
                     self.y_max = f_y
-                if self.y_min is None | f_y < self.y_min:
+                if (self.y_min is None):
                     self.y_min = f_y
-                if self.x_max is None | f_x > self.x_max:
+                if (self.x_max is None):
                     self.x_max = f_x
-                if self.x_min is None | f_x < self.x_min:
+                if (self.x_min is None):
+                    self.x_min = f_x
+
+
+
+                if ((self.y_max != None) & (f_y > self.y_max)) :
+                    self.y_max = f_y
+                if ((self.y_min is not None) & (f_y < self.y_min)):
+                    self.y_min = f_y
+                if ((self.x_max is not None) & (f_x > self.x_max)):
+                    self.x_max = f_x
+                if ((self.x_min is not None) & (f_x < self.x_min)):
                     self.x_min = f_x
 
             self.vertex_size = self.vertex_size + 1
@@ -79,8 +80,8 @@ class DiGraph(GraphInterface):
 
     # if the edge already exists or one of the nodes dose not exists the functions will do nothing
     def add_edge(self, id1: int, id2: int, weight: float):
-        if (id1 in self.vertex_dict) &  (id2 in self.vertex_dict) & (id1!=id2) : #was contain
-            if id2 in self.out_ni[id1]: #was contain
+        if (id1 in self.vertex_dict) & (id2 in self.vertex_dict) & (id1 != id2) :
+            if id2 in self.out_ni[id1]:
                 return False
             self.out_ni[id1].update({id2: weight})
             self.in_ni[id2].update({id1: weight})
@@ -90,7 +91,7 @@ class DiGraph(GraphInterface):
         return False
 
     def all_in_edges_of_node(self, id1: int) -> dict:
-        if id1 in self.in_ni:  # was contain
+        if id1 in self.in_ni:
             return self.in_ni[id1]
         else:
             return None
@@ -135,3 +136,6 @@ class DiGraph(GraphInterface):
 
     def get_mc(self) -> int:
         return self.changes
+    def __str__(self):
+        s="Graph: |V|=" +str(self.vertex_size)+", |E|="+str(self.edge_size)
+        return s

@@ -1,5 +1,6 @@
 from GraphAlgo import GraphAlgo
 from src.DiGraph import DiGraph
+from src.geoLocation import geoLocation
 
 
 def check():
@@ -21,7 +22,7 @@ def check():
     """
     check0()
     check1()
-    # check2()
+    check2()
 
 
 def check0():
@@ -54,8 +55,26 @@ def check1():
     :return:
     # """
     g_algo = GraphAlgo()  # init an empty graph - for the GraphAlgo
-    file = "C:\\Users\\Gilad\\Downloads\\G_10_80_0.json"
+    file = "C:\\Users\\Ayala\\Desktop\\A5.json"
     g_algo.load_from_json(file)  # init a GraphAlgo from a json file
+    g_algo.plot_graph()
+    g_algo.My_graph.add_node(30,geoLocation(2, 4, 0))
+    g_algo.My_graph.add_node(20, geoLocation(5, 1, 0))
+    g_algo.My_graph.add_node(21, geoLocation(9, 14, 0))
+    g_algo.My_graph.add_node(23, geoLocation(3, 7, 0))
+    g_algo.My_graph.add_edge(30,23,6.0)
+    g_algo.My_graph.add_edge(30, 2, 6.0)
+    g_algo.My_graph.add_edge(30, 21, 6.0)
+    g_algo.My_graph.add_edge(20, 3, 6.0)
+    g_algo.My_graph.add_edge(2, 20, 6.0)
+    g_algo.My_graph.add_edge(21, 1, 6.0)
+    g_algo.My_graph.add_edge(30, 1, 6.0)
+    g_algo.plot_graph()
+    g_algo = GraphAlgo()
+    file1 = "C:\\Users\\Ayala\\Desktop\\G_10_80_1.json"
+    g_algo.load_from_json(file1)  # init a GraphAlgo from a json file
+    g_algo.plot_graph()
+
     # list = g_algo.connected_components()
     # for i in list:
     #     print([])
@@ -65,7 +84,8 @@ def check1():
     # print(g_algo.shortest_path(0, 3))
     # print(g_algo.shortest_path(3, 1))
     # g_algo.save_to_json("C:\\Users\\Ayala\\Desktop\\file_save.json")
-    g_algo.plot_graph()
+    # g_algo.plot_graph()
+
 
 
 def check2():

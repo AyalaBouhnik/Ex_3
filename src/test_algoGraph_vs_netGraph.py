@@ -1,5 +1,5 @@
 import unittest
-from random import randrange, sample
+from random import sample
 
 import networkx
 
@@ -10,7 +10,7 @@ from src.netX import nx
 
 class test_algoGraph_vs_netGraph(unittest.TestCase):
     net = nx()  # our_graph and net_graph
-    net.init_graph("C:\\Users\\Gilad\\Desktop\\מדעי המחשב\\סמסטר א\\מונחה עצמים\\G_100_800_0.json")
+    net.init_graph("C:\\Users\\Ayala\\Downloads\\Graphs_no_pos (1)\\G_10000_80000_0.json")
     # net.graph.add_node(-1)
     net.init_dx_graph(net.graph)
     graph_algo = GraphAlgo(net.graph)

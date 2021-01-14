@@ -1,0 +1,133 @@
+    def plot_graph(self) -> None:
+        f = plt.figure()
+        ax = f.gca()
+        x_positions = []
+        y_positions = []
+        arr_keys = []
+        arr_position = []
+        if (self.My_graph.y_max is None) | (self.My_graph.x_max is None) | (self.My_graph.x_min is None) | (
+                self.My_graph.y_min is None):
+            plt.axes(xlim=(0, 9.7), ylim=(0, 9.7))
+            # x_max_lim = 9.5
+            # x_min_lim = -9.5
+            # y_max_lim = 9.5
+            # y_min_lim = -9.5
+
+        else:
+            axis = plt.axes(xlim=(self.My_graph.x_min - 0.5, self.My_graph.x_max + 0.5),
+                            ylim=(self.My_graph.y_min - 0.5, self.My_graph.y_max + 0.5))
+
+        x_max_lim = self.My_graph.x_max-0.5
+        x_min_lim = self.My_graph.x_min+0.5
+        y_max_lim = self.My_graph.y_max-0.5
+        y_min_lim = self.My_graph.y_min+0.5
+
+        for n in self.My_graph.get_all_v():
+            if self.My_graph.get_all_v().get(n).get_position() is None:
+                    if n not in arr_keys:
+                        x_random = random.uniform(x_min_lim, x_max_lim)
+                        y_random = random.uniform(y_min_lim, y_max_lim)
+                        self.My_graph.get_all_v()[n].set_position(geoLocation(x_random, y_random))
+                        arr_keys.append(n)
+                        # arr_position = []
+
+                        while self.My_graph.get_all_v()[n].get_position() in arr_position:
+                            y_random = random.uniform(y_min_lim, y_max_lim)
+                        self.My_graph.get_all_v()[n].set_position(geoLocation(x_random, y_random))
+                        arr_position.append(self.My_graph.get_all_v()[n].get_position())
+                        x_positions.append(x_random)
+                        y_positions.append(y_random)
+                        # ax.scatter(x_random, y_random, c='blue', s=30)
+                        plt.scatter(x_random, y_random)
+                        plt.annotate(n, (x_random, y_random))
+
+                    for j in self.My_graph.all_out_edges_of_node(n):
+                        if self.My_graph.get_all_v().get(j).get_position() is None:
+                            if j not in arr_keys:
+                                x_random = random.uniform(x_min_lim, x_max_lim)
+                                y_random = random.uniform(y_min_lim, y_max_lim)
+                                self.My_graph.get_all_v()[j].set_position(geoLocation(x_random, y_random))
+                                arr_keys.append(j)
+                                # arr_position = []
+
+                                while self.My_graph.get_all_v()[j].get_position in arr_position:
+                                    y_random = random.uniform(y_min_lim, y_max_lim)
+                                self.My_graph.get_all_v()[j].set_position(geoLocation(x_random, y_random))
+                                arr_position.append(self.My_graph.get_all_v()[j].get_position())
+                                x_positions.append(x_random)
+                                y_positions.append(y_random)
+                                plt.scatter(x_positions, y_positions)
+                                plt.annotate(j, (x_random, y_random))
+                            plt.annotate(text='', xy=(self.My_graph.get_all_v()[n].get_position().x,self.My_graph.get_all_v()[n].get_position().y),
+                                             xytext=(self.My_graph.get_all_v()[j].get_position().x,
+                                                     self.My_graph.get_all_v()[j].get_position().y),
+                                             arrowprops=dict(arrowstyle='<-'))
+
+                        else:
+                            if j not in arr_keys:
+                                x_positions.append(self.My_graph.get_all_v()[j].get_position().x)
+                                y_positions.append(self.My_graph.get_all_v()[j].get_position().y)
+                                arr_keys.append(j)
+                                plt.scatter(self.My_graph.get_all_v()[j].get_position().x, self.My_graph.get_all_v()[j].get_position().y)
+                                # ax.scatter(self.My_graph.get_all_v()[j].get_position().x,
+                                #            self.My_graph.get_all_v()[j].get_position().y, c='blue', s=50)
+                                plt.annotate(j, (
+                                    self.My_graph.get_all_v()[j].get_position().x,
+                                    self.My_graph.get_all_v()[j].get_position().y))
+                            plt.annotate(text='', xy=(self.My_graph.get_all_v()[n].get_position().x,
+                                                      self.My_graph.get_all_v()[n].get_position().y),
+                                         xytext=(self.My_graph.get_all_v()[j].get_position().x,
+                                                 self.My_graph.get_all_v()[j].get_position().y),
+                                         arrowprops=dict(arrowstyle='<-'))
+
+            else:
+                # for i in self.My_graph.get_all_v():
+                    if n not in arr_keys:
+                        x_positions.append(self.My_graph.get_all_v()[n].get_position().x)
+                        y_positions.append(self.My_graph.get_all_v()[n].get_position().y)
+                        plt.scatter(self.My_graph.get_all_v()[n].get_position().x,
+                                    self.My_graph.get_all_v()[n].get_position().y)
+                        # ax.scatter(self.My_graph.get_all_v()[n].get_position().x,
+                        #                self.My_graph.get_all_v()[n].get_position().y, c='blue', s=50)
+                        plt.annotate(n, (
+                            self.My_graph.get_all_v()[n].get_position().x, self.My_graph.get_all_v()[n].get_position().y))
+                        arr_keys.append(n)
+                    for j in self.My_graph.all_out_edges_of_node(n):
+                        if self.My_graph.get_all_v().get(j).get_position() is not None:
+                            if j not in arr_keys:
+                                x_positions.append(self.My_graph.get_all_v()[j].get_position().x)
+                                y_positions.append(self.My_graph.get_all_v()[j].get_position().y)
+                                arr_keys.append(j)
+                                ax.scatter(self.My_graph.get_all_v()[j].get_position().x,
+                                           self.My_graph.get_all_v()[j].get_position().y, c='blue', s=30)
+                                plt.annotate(j, (
+                                    self.My_graph.get_all_v()[j].get_position().x,
+                                    self.My_graph.get_all_v()[j].get_position().y))
+                            plt.annotate(text='', xy=(self.My_graph.get_all_v()[n].get_position().x,
+                                                      self.My_graph.get_all_v()[n].get_position().y),
+                                         xytext=(self.My_graph.get_all_v()[j].get_position().x,
+                                                 self.My_graph.get_all_v()[j].get_position().y),
+                                         arrowprops=dict(arrowstyle='<-'))
+                        else:
+                            if j not in arr_keys:
+                                x_random = random.uniform(x_min_lim, x_max_lim)
+                                y_random = random.uniform(y_min_lim, y_max_lim)
+                                self.My_graph.get_all_v()[j].set_position(geoLocation(x_random, y_random))
+                                arr_keys.append(j)
+                                # arr_position = []
+
+                                while self.My_graph.get_all_v()[j].get_position in arr_position:
+                                    y_random = random.uniform(y_min_lim, y_max_lim)
+                                self.My_graph.get_all_v()[j].set_position(geoLocation(x_random, y_random))
+                                arr_position.append(self.My_graph.get_all_v()[j].get_position())
+                                x_positions.append(x_random)
+                                y_positions.append(y_random)
+                                ax.scatter(x_positions, y_positions, c='blue', s=30)
+                                plt.annotate(j, (x_random, y_random))
+                            plt.annotate(text='', xy=(self.My_graph.get_all_v()[n].get_position().x,
+                                                      self.My_graph.get_all_v()[n].get_position().y),
+                                         xytext=(self.My_graph.get_all_v()[j].get_position().x,
+                                                 self.My_graph.get_all_v()[j].get_position().y),
+                                         arrowprops=dict(arrowstyle='<-'))
+        plt.scatter(x_positions, y_positions)
+        plt.show()
