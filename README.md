@@ -45,7 +45,8 @@ An example of plot graph:
 
  * def save_to_json(self, file_name: str)-this method saves the graph in JSON format to a file. It will return true if the save was successful, otherwise false.
  
-* def shortest_path(self, id1: int, id2: int)- this method returns the shortest path from node id1 to node id2 using Dijkstra's Algorithm. It will return the distance of the path, a list of the nodes ids that the path goes through. If there is no path between id1 and id2, or one of them does not exist the function returns (float('inf'),[])
+* def shortest_path(self, id1: int, id2: int)- this method returns the shortest path from node id1 to node id2 using Dijkstra's Algorithm. It will return the distance of the path, a list of the nodes ids that the path goes through. If there is no path between id1 and id2, or one of them does not exist the function returns (float('inf'),[]).
+int this method we used Djikstra’s algorithm. (you can read more about it here-https://benalexkeen.com/implementing-djikstras-shortest-path-algorithm-with-python/)
 
 * def connected_component(self, id1: int)-this method finds the Strongly Connected Component(SCC) that node id1 is a part of.  If the graph is None or id1 is not in the graph, the function should return an empty list [].
 
