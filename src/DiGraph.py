@@ -1,5 +1,3 @@
-from collections import defaultdict
-
 from src.GraphInterface import GraphInterface
 from src.geoLocation import geoLocation
 
@@ -64,7 +62,6 @@ class DiGraph(GraphInterface):
                     self.x_min = f_x
 
 
-
                 if ((self.y_max != None) & (f_y > self.y_max)) :
                     self.y_max = f_y
                 if ((self.y_min is not None) & (f_y < self.y_min)):
@@ -83,11 +80,14 @@ class DiGraph(GraphInterface):
         if (id1 in self.vertex_dict) & (id2 in self.vertex_dict) & (id1 != id2) :
             if id2 in self.out_ni[id1]:
                 return False
-            self.out_ni[id1].update({id2: weight})
-            self.in_ni[id2].update({id1: weight})
-            self.changes = self.changes + 1
-            self.edge_size = self.edge_size + 1
-            return True
+            if id1 in self.out_ni[id2]:
+                return False
+            else:
+                self.out_ni[id1].update({id2: weight})
+                self.in_ni[id2].update({id1: weight})
+                self.changes = self.changes + 1
+                self.edge_size = self.edge_size +1
+                return True
         return False
 
     def all_in_edges_of_node(self, id1: int) -> dict:
@@ -136,6 +136,9 @@ class DiGraph(GraphInterface):
 
     def get_mc(self) -> int:
         return self.changes
+
     def __str__(self):
-        s="Graph: |V|=" +str(self.vertex_size)+", |E|="+str(self.edge_size)
+        s = "Graph: |V|=" +str(self.vertex_size)+", |E|="+str(self.edge_size)
         return s
+
+
