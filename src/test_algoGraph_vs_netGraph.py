@@ -1,5 +1,5 @@
 import unittest
-from random import sample
+from random import randrange, sample
 
 import networkx
 
@@ -10,10 +10,12 @@ from src.netX import nx
 
 class test_algoGraph_vs_netGraph(unittest.TestCase):
     net = nx()  # our_graph and net_graph
-    net.init_graph("C:\\Users\\Ayala\\Downloads\\Graphs_no_pos (1)\\G_10000_80000_0.json")
+    file = "C:\\Users\\Gilad\\Desktop\\מדעי המחשב\\סמסטר א\\מונחה עצמים\\G_100_800_0.json"
+    net.init_graph("C:\\Users\\Gilad\\Desktop\\מדעי המחשב\\סמסטר א\\מונחה עצמים\\G_30000_240000_0.json")
     # net.graph.add_node(-1)
     net.init_dx_graph(net.graph)
     graph_algo = GraphAlgo(net.graph)
+    print(file)
 
     def test_connected_component_our_graph_runTime(self):
         # self.graph_algo.graph.add_node(-2)
@@ -31,14 +33,28 @@ class test_algoGraph_vs_netGraph(unittest.TestCase):
         len_our = self.graph_algo.connected_components().__len__()
         len_net = (list(networkx.strongly_connected_components(self.net.dx_net_graph))).__len__()
         self.assertEqual(len_our, len_net)
-        list_our = sorted(self.graph_algo.connected_components(), key=lambda x: len(x))
-        # print(list_our)
-        # self.print_list_of_lists(list_our)
-        list_net = sorted(networkx.strongly_connected_components(self.net.dx_net_graph), key=lambda x: len(x))
 
-        # print(list_net)
-        # this function could be problematic.
-        # in case there are two connected components unit with the same length
+# sorts the list
+        list_our = []
+        for l in self.graph_algo.connected_components():
+            list_our.append(sorted(l, key=lambda x: x.id))
+        list_our = sorted(list_our, key=lambda x: x[0].id)
+        list_our = sorted(list_our, key=lambda x: len(x))
+
+        list_net = []
+        for l in networkx.strongly_connected_components(self.net.dx_net_graph):
+            l1 = []
+            for num in l:
+                l1.append(num)
+            l1.sort()
+            list_net.append(l1)
+        list_net = sorted(list_net, key=lambda x: list(x)[0])
+        list_net = sorted(list_net, key=lambda x: len(list(x)))
+        self.print_list_of_lists_2(list_our)
+        print(list_net)
+
+        # this function could be problematic.fixed :)
+        # in case there are two connected components unit with the same length.
 
         for i in range(len_our):
             sub_list_our = list_our[i]
@@ -73,7 +89,8 @@ class test_algoGraph_vs_netGraph(unittest.TestCase):
     def test_net_shortest_runTime(self):
         networkx.shortest_path(self.net.dx_net_graph, self.two_rand_numbers[0], self.two_rand_numbers[1], 'weight')
 
-    tree_rand_nodes = sample(graph_algo.graph.get_all_v().keys(), 3) # list of tree random key's node from graph
+    tree_rand_nodes = sample(graph_algo.graph.get_all_v().keys(), 3)  # list of tree random key's node from graph
+
     def test_RunTime_connected_componenet_3nodes(self):
         self.graph_algo.connected_component(self.tree_rand_nodes[0])
         self.graph_algo.connected_component(self.tree_rand_nodes[1])
