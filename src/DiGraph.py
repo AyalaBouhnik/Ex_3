@@ -7,21 +7,19 @@ from src.geoLocation import geoLocation
 class Vertex:
     def __init__(self, node, position=geoLocation()):
         self.id = node
-        self.adjacent = {}
         self.position = position
-
-    def add_neighbor(self, neighbor, weight=0):
-        self.adjacent[neighbor] = weight
 
     def get_id(self):
         return self.id
 
-    def get_weight(self, neighbor):
-        return self.adjacent[neighbor]
+    def __str__(self) -> str:
+        return str(self.id)
 
+    #for the plot method:
     def set_position(self, other):
         self.position = other
 
+    # for the plot method:
     def get_position(self):
         return self.position
 
@@ -31,29 +29,27 @@ class Vertex:
 
 
 class DiGraph(GraphInterface):
-    vertex_dict = {}  # list of nodes
-    out_ni = {}
-    in_ni = {}
+    vertex_dict = {}            # list of nodes. hashmap. { node.id : node }
+    out_ni = {}                 # list of neighbors.  hashmap inside hashmap. { src.id : { dest.id : weight } }
+    in_ni = {}                  # list of neighbors.  hashmap inside hashmap. { dest.id : { src.id : weight } }
     changes = 0
     ###Gilad- please think of another way!!!
-    x_min = 2147483648.0
-    y_min = 2147483648.0
-    x_max = -2147483648.0
-    y_max = -2147483648.0
+    # x_min = None
+    # y_min = None
+    # x_max = None
+    # y_max = None
 
-    def __init__(self, edge_size=0, vertex_size=0, changes=0, out_ni={}, in_ni={}, vertex_dict={}, x_min=2147483648.0,
-                 y_min=2147483648.0,
-                 x_max=-2147483648.0, y_max=-2147483648.0):
+    def __init__(self, edge_size=0, vertex_size=0, changes=0, out_ni={}, in_ni={}, vertex_dict={}):
         self.vertex_dict = vertex_dict
         self.out_ni = out_ni
         self.in_ni = in_ni
         self.vertex_size = vertex_size
         self.edge_size = edge_size
         self.changes = changes
-        self.y_min = y_min
-        self.y_max = y_max
-        self.x_max = x_max
-        self.x_min = x_min
+        self.y_min = None
+        self.y_max = None
+        self.x_max = None
+        self.x_min = None
 
     def add_node(self, node_id: int, pos: tuple = None) -> bool:
         if node_id in self.vertex_dict.keys():
@@ -68,15 +64,15 @@ class DiGraph(GraphInterface):
                 f_x = pos.x
                 f_y = pos.y
 
-                ##to change
-                if (f_y > self.y_max):
+                if self.y_max is None | f_y > self.y_max:
                     self.y_max = f_y
-                    if (f_y < self.y_min):
-                        self.y_min = f_y
-                    if (f_x > self.x_max):
-                        self.x_max = f_x
-                    if (f_x < self.x_min):
-                        self.x_min = f_x
+                if self.y_min is None | f_y < self.y_min:
+                    self.y_min = f_y
+                if self.x_max is None | f_x > self.x_max:
+                    self.x_max = f_x
+                if self.x_min is None | f_x < self.x_min:
+                    self.x_min = f_x
+
             self.vertex_size = self.vertex_size + 1
             self.changes = self.changes + 1
             return True
@@ -94,7 +90,7 @@ class DiGraph(GraphInterface):
         return False
 
     def all_in_edges_of_node(self, id1: int) -> dict:
-        if id1 in self.in_ni : #was contain
+        if id1 in self.in_ni:  # was contain
             return self.in_ni[id1]
         else:
             return None

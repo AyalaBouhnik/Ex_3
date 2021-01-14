@@ -49,15 +49,15 @@ class GraphAlgo(GraphAlgoInterface):
                 p = n.get("pos").split(',')
                 f_x = float(p[0])
                 f_y = float(p[1])
-                #to change!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                if f_y > self.My_graph.y_max:
-                    self.My_graph.y_max = f_y
-                if f_y < self.My_graph.y_min:
-                    self.My_graph.y_min = f_y
-                if f_x > self.My_graph.x_max:
-                    self.My_graph.x_max = f_x
-                if f_x < self.My_graph.x_min:
-                    self.My_graph.x_min = f_x
+
+                # if self.y_max is None | f_y > self.y_max:
+                #     self.y_max = f_y
+                # if self.y_min is None | f_y < self.y_min:
+                #     self.y_min = f_y
+                # if self.x_max is None | f_x > self.x_max:
+                #     self.x_max = f_x
+                # if self.x_min is None | f_x < self.x_min:
+                #     self.x_min = f_x
 
                 pos = geoLocation(f_x, f_y, float(p[2]))
                 graph_load.add_node(n.get("id"), pos)
@@ -104,8 +104,6 @@ class GraphAlgo(GraphAlgoInterface):
                 answer.append(node)
         return answer
 
-    def __str__(self):
-        return id()+""
 
     def connected_components(self):
         result = []
@@ -217,39 +215,43 @@ class GraphAlgo(GraphAlgoInterface):
             y_positions = []
             f = plt.figure()
             ax = f.gca()
-            ax.axis([(self.My_graph.x_min - 0.005), (self.My_graph.x_max + 0.002),(self.My_graph.y_min - 0.008), (self.My_graph.y_max + 0.001)])
-            arr_keys = []
-            for i in self.My_graph.get_all_v():
-                if i not in arr_keys:
-                    x_positions.append(self.My_graph.get_all_v()[i].get_position().x)
-                    y_positions.append(self.My_graph.get_all_v()[i].get_position().y)
-                    ax.scatter(self.My_graph.get_all_v()[i].get_position().x,
-                               self.My_graph.get_all_v()[i].get_position().y, c='blue', s=50)
-                    plt.annotate(i, (
-                        self.My_graph.get_all_v()[i].get_position().x, self.My_graph.get_all_v()[i].get_position().y))
-                    arr_keys.append(i)
-                for j in self.My_graph.all_out_edges_of_node(i):
-                    if j not in arr_keys:
-                        x_positions.append(self.My_graph.get_all_v()[j].get_position().x)
-                        y_positions.append(self.My_graph.get_all_v()[j].get_position().y)
-                        arr_keys.append(j)
-                        ax.scatter(self.My_graph.get_all_v()[j].get_position().x,
-                                   self.My_graph.get_all_v()[j].get_position().y, c='blue', s=50)
-                        plt.annotate(j, (
-                            self.My_graph.get_all_v()[j].get_position().x,
-                            self.My_graph.get_all_v()[j].get_position().y))
-                    plt.annotate(text='', xy=(self.My_graph.get_all_v()[i].get_position().x,
-                                           self.My_graph.get_all_v()[i].get_position().y),
-                                 xytext=(self.My_graph.get_all_v()[j].get_position().x,
-                                         self.My_graph.get_all_v()[j].get_position().y),
-                                 arrowprops=dict(arrowstyle='<-'))
-                    # ax.arrow(self.My_graph.get_all_v()[i].get_position().x,
+            if (self.My_graph.y_max is None) | (self.My_graph.x_max is None) | (self.My_graph.x_min is None) | (self.My_graph.y_min is None):
+                plt.axes(xlim = (-2 ,2) , ylim = (-2, 2))
+            else:
+                ax.axis([(self.My_graph.x_min - 0.005), (self.My_graph.x_max + 0.002),(self.My_graph.y_min - 0.008), (self.My_graph.y_max + 0.001)])
+                arr_keys = []
+                for i in self.My_graph.get_all_v():
+                    if i not in arr_keys:
+                        x_positions.append(self.My_graph.get_all_v()[i].get_position().x)
+                        y_positions.append(self.My_graph.get_all_v()[i].get_position().y)
+                        ax.scatter(self.My_graph.get_all_v()[i].get_position().x,
+                                   self.My_graph.get_all_v()[i].get_position().y, c='blue', s=50)
+                        plt.annotate(i, (
+                            self.My_graph.get_all_v()[i].get_position().x, self.My_graph.get_all_v()[i].get_position().y))
+                        arr_keys.append(i)
+                    for j in self.My_graph.all_out_edges_of_node(i):
+                        if j not in arr_keys:
+                            x_positions.append(self.My_graph.get_all_v()[j].get_position().x)
+                            y_positions.append(self.My_graph.get_all_v()[j].get_position().y)
+                            arr_keys.append(j)
+                            ax.scatter(self.My_graph.get_all_v()[j].get_position().x,
+                                       self.My_graph.get_all_v()[j].get_position().y, c='blue', s=50)
+                            plt.annotate(j, (
+                                self.My_graph.get_all_v()[j].get_position().x,
+                                self.My_graph.get_all_v()[j].get_position().y))
+                        plt.annotate(text='', xy=(self.My_graph.get_all_v()[i].get_position().x,
+                                                  self.My_graph.get_all_v()[i].get_position().y),
+                                     xytext=(self.My_graph.get_all_v()[j].get_position().x,
+                                             self.My_graph.get_all_v()[j].get_position().y),
+                                     arrowprops=dict(arrowstyle='<-'))
+                        # ax.arrow(self.My_graph.get_all_v()[i].get_position().x,
                     #          self.My_graph.get_all_v()[i].get_position().y,
                     #          self.My_graph.get_all_v()[j].get_position().x - self.My_graph.get_all_v()[
                     #              i].get_position().x,
                     #          self.My_graph.get_all_v()[j].get_position().y - self.My_graph.get_all_v()[
                     #              i].get_position().y,
                     #          head_width=0.3, head_length=0.3, fc='k', ec='k')
+
 
         plt.show()
 

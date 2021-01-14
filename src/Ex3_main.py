@@ -1,6 +1,4 @@
 from GraphAlgo import GraphAlgo
-import networkx as nx
-
 from src.DiGraph import DiGraph
 
 
@@ -56,7 +54,7 @@ def check1():
     :return:
     # """
     g_algo = GraphAlgo()  # init an empty graph - for the GraphAlgo
-    file = "C:\\Users\\Ayala\\Desktop\\file.json"
+    file = "C:\\Users\\Gilad\\Downloads\\G_10_80_0.json"
     g_algo.load_from_json(file)  # init a GraphAlgo from a json file
     # list = g_algo.connected_components()
     # for i in list:
@@ -67,7 +65,7 @@ def check1():
     # print(g_algo.shortest_path(0, 3))
     # print(g_algo.shortest_path(3, 1))
     # g_algo.save_to_json("C:\\Users\\Ayala\\Desktop\\file_save.json")
-    # g_algo.plot_graph()
+    g_algo.plot_graph()
 
 
 def check2():
