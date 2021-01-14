@@ -2,9 +2,10 @@
 # Directed Weighted Graph-
 # About the project
 In this assignment (-'3') we will implement directed weighted graph in python program, by using the data structure we have developed so far, in Java program. Including the ability to save and restore the graph from a file in Json format, calculate the shortest directed route, find the strongly connected component and more. 
+In the third part of this assignment we compared the run time of some function in our graph VS NetworkX package VS Java.
+(you can read more about the compactions in the wiki page).
 
-
-an example of directed weighted graph:
+An example of directed weighted graph:
  <img src=https://reasonabledeviations.com/assets/images/weighted_digraph.png> 
 
 
@@ -30,6 +31,11 @@ DiGraph class- This class represents a directional weighted graph based on a dic
 * def e_size(self) – this method returns the number of edges in this graph.
 
 * def get_mc(self) -this method returns the current version of this graph,  on every change in the graph state - the 'changes' variable should be increased.
+
+An example of plot graph:
+
+<img src=https://user-images.githubusercontent.com/74878247/104622101-81a52180-5699-11eb-8024-580a3221d24f.PNG> 
+
 
 **GraphAlgo class- This class have the main algorithms:**
 
