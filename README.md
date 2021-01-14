@@ -4,8 +4,9 @@
 In this assignment (-'3') we will implement directed weighted graph in python program, by using the data structure we have developed so far, in Java program. Including the ability to save and restore the graph from a file in Json format, calculate the shortest directed route, find the strongly connected component and more. 
 
 
- <img src=https://media.geeksforgeeks.org/wp-content/uploads/graphhh.png> 
- 
+an example of directed weighted graph:
+ <img src=https://reasonabledeviations.com/assets/images/weighted_digraph.png> 
+
 
 in the src package we have two main classes- DiGraph and GraphAlgo.
 DiGraph class- This class represents a directional weighted graph based on a dict.
